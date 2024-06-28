@@ -26,7 +26,7 @@ func compareFloats(lvalue, rvalue float64, digits int) bool {
 }
 
 func TestDataFrame_New(t *testing.T) {
-	series := []series.Series{
+	series := []series.Series1{
 		series.Strings([]int{1, 2, 3, 4, 5}),
 		series.New([]int{1, 2, 3, 4, 5}, series.String, "0"),
 		series.Ints([]int{1, 2, 3, 4, 5}),
@@ -77,7 +77,7 @@ func TestDataFrame_Subset(t *testing.T) {
 	)
 	table := []struct {
 		indexes interface{}
-		expDf   DataFrame
+		expDf   GotaDataFrame
 	}{
 		{
 			[]int{1, 2},
@@ -145,7 +145,7 @@ func TestDataFrame_Select(t *testing.T) {
 	)
 	table := []struct {
 		indexes interface{}
-		expDf   DataFrame
+		expDf   GotaDataFrame
 	}{
 		{
 			series.Bools([]bool{false, true, true}),
@@ -262,7 +262,7 @@ func TestDataFrame_Drop(t *testing.T) {
 	)
 	table := []struct {
 		indexes interface{}
-		expDf   DataFrame
+		expDf   GotaDataFrame
 	}{
 		{
 			series.Bools([]bool{false, true, true}),
@@ -367,7 +367,7 @@ func TestDataFrame_Rename(t *testing.T) {
 	table := []struct {
 		newname string
 		oldname string
-		expDf   DataFrame
+		expDf   GotaDataFrame
 	}{
 		{
 			"NEWCOL.1",
@@ -428,8 +428,8 @@ func TestDataFrame_CBind(t *testing.T) {
 		series.New([]float64{3.0, 4.0, 5.3, 3.2, 1.2}, series.Float, "COL.3"),
 	)
 	table := []struct {
-		dfb   DataFrame
-		expDf DataFrame
+		dfb   GotaDataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			New(
@@ -502,8 +502,8 @@ func TestDataFrame_RBind(t *testing.T) {
 		series.New([]float64{3.0, 4.0, 5.3, 3.2, 1.2}, series.Float, "COL.3"),
 	)
 	table := []struct {
-		dfb   DataFrame
-		expDf DataFrame
+		dfb   GotaDataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			New(
@@ -563,9 +563,9 @@ func TestDataFrame_Concat(t *testing.T) {
 		series.New([]float64{3.0, 4.0, 5.3, 3.2, 1.2}, series.Float, "COL.3"),
 	)
 	table := []struct {
-		dfa   DataFrame
-		dfb   DataFrame
-		expDf DataFrame
+		dfa   GotaDataFrame
+		dfb   GotaDataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			a,
@@ -637,7 +637,7 @@ func TestDataFrame_Concat(t *testing.T) {
 			),
 		},
 		{
-			DataFrame{},
+			GotaDataFrame{},
 			a,
 			a,
 		},
@@ -693,8 +693,8 @@ func TestDataFrame_Mutate(t *testing.T) {
 		series.New([]float64{3.0, 4.0, 5.3, 3.2, 1.2}, series.Float, "COL.3"),
 	)
 	table := []struct {
-		s     series.Series
-		expDf DataFrame
+		s     series.Series1
+		expDf GotaDataFrame
 	}{
 		{
 			series.New([]string{"A", "B", "A", "A", "A"}, series.String, "COL.1"),
@@ -754,7 +754,7 @@ func TestDataFrame_Filter_Or(t *testing.T) {
 	)
 	table := []struct {
 		filters []F
-		expDf   DataFrame
+		expDf   GotaDataFrame
 	}{
 		{
 			[]F{{0, "COL.2", series.GreaterEq, 4}},
@@ -847,7 +847,7 @@ func TestDataFrame_Filter_And(t *testing.T) {
 	)
 	table := []struct {
 		filters []F
-		expDf   DataFrame
+		expDf   GotaDataFrame
 	}{
 		{
 			[]F{{Colname: "COL.2", Comparator: series.GreaterEq, Comparando: 4}},
@@ -937,8 +937,8 @@ func TestDataFrame_Filter_And(t *testing.T) {
 
 func TestLoadRecords(t *testing.T) {
 	table := []struct {
-		df    DataFrame
-		expDf DataFrame
+		df    GotaDataFrame
+		expDf GotaDataFrame
 		err   bool
 	}{
 		{ // Test: 0
@@ -1086,7 +1086,7 @@ func TestLoadRecords(t *testing.T) {
 				HasHeader(false),
 				Names("MyA", "MyB", "MyC"),
 			),
-			DataFrame{},
+			GotaDataFrame{},
 			true,
 		},
 		{ // Test: 8
@@ -1099,7 +1099,7 @@ func TestLoadRecords(t *testing.T) {
 				HasHeader(false),
 				Names("MyA", "MyB", "MyC", "MyD", "MyE"),
 			),
-			DataFrame{},
+			GotaDataFrame{},
 			true,
 		},
 		{
@@ -1237,8 +1237,8 @@ func TestLoadRecords(t *testing.T) {
 
 func TestLoadMaps(t *testing.T) {
 	table := []struct {
-		df    DataFrame
-		expDf DataFrame
+		df    GotaDataFrame
+		expDf GotaDataFrame
 	}{
 		{ // Test: 0
 			LoadMaps(
@@ -1423,7 +1423,7 @@ Spain,2012-02-01,66,555.42,00241
 func TestReadJSON(t *testing.T) {
 	table := []struct {
 		jsonStr string
-		expDf   DataFrame
+		expDf   GotaDataFrame
 	}{
 		{
 			`[{"COL.1":null,"COL.2":1,"COL.3":3},{"COL.1":5,"COL.2":2,"COL.3":2},{"COL.1":6,"COL.2":3,"COL.3":20180428}]`,
@@ -1476,11 +1476,11 @@ func TestReadJSON(t *testing.T) {
 func TestReadHTML(t *testing.T) {
 	table := []struct {
 		htmlStr string
-		expDf   []DataFrame
+		expDf   []GotaDataFrame
 	}{
 		{
 			"",
-			[]DataFrame{},
+			[]GotaDataFrame{},
 		},
 		{
 			`<html>
@@ -1491,7 +1491,7 @@ func TestReadHTML(t *testing.T) {
 			</table>
 			</body>
 			</html>`,
-			[]DataFrame{
+			[]GotaDataFrame{
 				LoadRecords(
 					[][]string{
 						{"COL.1"},
@@ -1508,7 +1508,7 @@ func TestReadHTML(t *testing.T) {
 			</table>
 			</body>
 			</html>`,
-			[]DataFrame{
+			[]GotaDataFrame{
 				LoadRecords(
 					[][]string{
 						{"COL.1", "COL.2", "COL.3"},
@@ -1584,7 +1584,7 @@ func TestDataFrame_InnerJoin(t *testing.T) {
 	)
 	table := []struct {
 		keys  []string
-		expDf DataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			[]string{"A", "D"},
@@ -1669,7 +1669,7 @@ func TestDataFrame_LeftJoin(t *testing.T) {
 	)
 	table := []struct {
 		keys  []string
-		expDf DataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			[]string{"A", "D"},
@@ -1746,7 +1746,7 @@ func TestDataFrame_RightJoin(t *testing.T) {
 	)
 	table := []struct {
 		keys  []string
-		expDf DataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			[]string{"A", "D"},
@@ -1823,7 +1823,7 @@ func TestDataFrame_OuterJoin(t *testing.T) {
 	)
 	table := []struct {
 		keys  []string
-		expDf DataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			[]string{"A", "D"},
@@ -1972,7 +1972,7 @@ func TestDataFrame_Maps(t *testing.T) {
 
 func TestDataFrame_WriteCSV(t *testing.T) {
 	table := []struct {
-		df       DataFrame
+		df       GotaDataFrame
 		options  []WriteOption
 		expected string
 	}{
@@ -2090,8 +2090,8 @@ func TestDataFrame_Set(t *testing.T) {
 	)
 	table := []struct {
 		indexes   series.Indexes
-		newvalues DataFrame
-		expDf     DataFrame
+		newvalues GotaDataFrame
+		expDf     GotaDataFrame
 	}{
 		{
 			series.Ints([]int{0, 2}),
@@ -2276,7 +2276,7 @@ func TestDataFrame_Arrange(t *testing.T) {
 	)
 	table := []struct {
 		colnames []Order
-		expDf    DataFrame
+		expDf    GotaDataFrame
 	}{
 		{
 			[]Order{Sort("A")},
@@ -2425,9 +2425,9 @@ func TestDataFrame_Arrange(t *testing.T) {
 
 func TestDataFrame_Arrange2(t *testing.T) {
 	table := []struct {
-		df       DataFrame
+		df       GotaDataFrame
 		colnames []Order
-		expDf    DataFrame
+		expDf    GotaDataFrame
 	}{
 		{
 			New(
@@ -2485,7 +2485,7 @@ func TestDataFrame_Capply(t *testing.T) {
 			{"a", "2", "7.1", "false"},
 		},
 	)
-	mean := func(s series.Series) series.Series {
+	mean := func(s series.Series1) series.Series1 {
 		floats := s.Float()
 		sum := 0.0
 		for _, f := range floats {
@@ -2493,7 +2493,7 @@ func TestDataFrame_Capply(t *testing.T) {
 		}
 		return series.Floats(sum / float64(len(floats)))
 	}
-	sum := func(s series.Series) series.Series {
+	sum := func(s series.Series1) series.Series1 {
 		floats := s.Float()
 		sum := 0.0
 		for _, f := range floats {
@@ -2502,8 +2502,8 @@ func TestDataFrame_Capply(t *testing.T) {
 		return series.Floats(sum)
 	}
 	table := []struct {
-		fun   func(series.Series) series.Series
-		expDf DataFrame
+		fun   func(series.Series1) series.Series1
+		expDf GotaDataFrame
 	}{
 		{
 			mean,
@@ -2587,7 +2587,7 @@ func TestDataFrame_Rapply(t *testing.T) {
 			{"2", "2", "7.1", "0"},
 		},
 	)
-	mean := func(s series.Series) series.Series {
+	mean := func(s series.Series1) series.Series1 {
 		floats := s.Float()
 		sum := 0.0
 		for _, f := range floats {
@@ -2596,7 +2596,7 @@ func TestDataFrame_Rapply(t *testing.T) {
 		ret := series.Floats(sum / float64(len(floats)))
 		return ret
 	}
-	sum := func(s series.Series) series.Series {
+	sum := func(s series.Series1) series.Series1 {
 		floats := s.Float()
 		sum := 0.0
 		for _, f := range floats {
@@ -2605,8 +2605,8 @@ func TestDataFrame_Rapply(t *testing.T) {
 		return series.Floats(sum)
 	}
 	table := []struct {
-		fun   func(series.Series) series.Series
-		expDf DataFrame
+		fun   func(series.Series1) series.Series1
+		expDf GotaDataFrame
 	}{
 		{
 			mean,
@@ -2662,7 +2662,7 @@ func TestDataFrame_Rapply(t *testing.T) {
 }
 
 type mockMatrix struct {
-	DataFrame
+	GotaDataFrame
 }
 
 func (m mockMatrix) At(i, j int) float64 {
@@ -2675,8 +2675,8 @@ func (m mockMatrix) T() Matrix {
 
 func TestLoadMatrix(t *testing.T) {
 	table := []struct {
-		b     DataFrame
-		expDf DataFrame
+		b     GotaDataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			LoadRecords(
@@ -2739,8 +2739,8 @@ func TestLoadStructs(t *testing.T) {
 		{"NA", 2, true, 0.5, 0, 0},
 	}
 	table := []struct {
-		b     DataFrame
-		expDf DataFrame
+		b     GotaDataFrame
+		expDf GotaDataFrame
 	}{
 		{
 			LoadStructs(dataTags),
@@ -2845,8 +2845,8 @@ func TestLoadStructs(t *testing.T) {
 
 func TestDescribe(t *testing.T) {
 	table := []struct {
-		df       DataFrame
-		expected DataFrame
+		df       GotaDataFrame
+		expected GotaDataFrame
 	}{
 		{
 			LoadRecords(

@@ -9,7 +9,7 @@ import (
 	"github.com/go-gota/gota/series"
 )
 
-func generateSeries(n, rep int) (data []series.Series) {
+func generateSeries(n, rep int) (data []series.Series1) {
 	rand.Seed(100)
 	for j := 0; j < rep; j++ {
 		var is []int
@@ -51,7 +51,7 @@ func generateIntsN(n, k int) (data []int) {
 func BenchmarkNew(b *testing.B) {
 	table := []struct {
 		name string
-		data []series.Series
+		data []series.Series1
 	}{
 		{
 			"100000x4",
@@ -91,7 +91,7 @@ func BenchmarkDataFrame_Arrange(b *testing.B) {
 	data := dataframe.New(generateSeries(100000, 5)...)
 	table := []struct {
 		name string
-		data dataframe.DataFrame
+		data dataframe.GotaDataFrame
 		key  []dataframe.Order
 	}{
 		{
@@ -141,7 +141,7 @@ func BenchmarkDataFrame_Subset(b *testing.B) {
 	idx1000000 := generateIntsN(1000000, 1000000)
 	table := []struct {
 		name    string
-		data    dataframe.DataFrame
+		data    dataframe.GotaDataFrame
 		indexes interface{}
 	}{
 		{
@@ -248,7 +248,7 @@ func BenchmarkDataFrame_Elem(b *testing.B) {
 	data := dataframe.New(generateSeries(100000, 5)...)
 	table := []struct {
 		name string
-		data dataframe.DataFrame
+		data dataframe.GotaDataFrame
 	}{
 		{
 			"100000x20_ALL",

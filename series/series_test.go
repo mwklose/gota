@@ -25,7 +25,7 @@ import (
 
 // Check that all the types on a Series are the same type and that it matches with
 // Series.t
-func checkTypes(s Series) error {
+func checkTypes(s Series1) error {
 	var types []Type
 	for i := 0; i < s.Len(); i++ {
 		e := s.elements.Elem(i)
@@ -53,10 +53,10 @@ func compareFloats(lvalue, rvalue float64, digits int) bool {
 
 func TestSeries_Compare(t *testing.T) {
 	table := []struct {
-		series     Series
+		series     Series1
 		comparator Comparator
 		comparando interface{}
-		expected   Series
+		expected   Series1
 	}{
 		{
 			Strings([]string{"A", "B", "C", "B", "D", "BADA"}),
@@ -423,10 +423,10 @@ func TestSeries_Compare(t *testing.T) {
 
 func TestSeries_Compare_CompFunc(t *testing.T) {
 	table := []struct {
-		series     Series
+		series     Series1
 		comparator Comparator
 		comparando interface{}
-		expected   Series
+		expected   Series1
 		panic      bool
 	}{
 		{
@@ -493,7 +493,7 @@ func TestSeries_Compare_CompFunc(t *testing.T) {
 
 func TestSeries_Subset(t *testing.T) {
 	table := []struct {
-		series   Series
+		series   Series1
 		indexes  Indexes
 		expected string
 	}{
@@ -561,9 +561,9 @@ func TestSeries_Subset(t *testing.T) {
 
 func TestSeries_Set(t *testing.T) {
 	table := []struct {
-		series   Series
+		series   Series1
 		indexes  Indexes
-		values   Series
+		values   Series1
 		expected string
 	}{
 		{
@@ -618,7 +618,7 @@ func TestSeries_Set(t *testing.T) {
 
 func TestStrings(t *testing.T) {
 	table := []struct {
-		series   Series
+		series   Series1
 		expected string
 	}{
 		{
@@ -714,7 +714,7 @@ func TestStrings(t *testing.T) {
 
 func TestInts(t *testing.T) {
 	table := []struct {
-		series   Series
+		series   Series1
 		expected string
 	}{
 		{
@@ -814,7 +814,7 @@ func TestInts(t *testing.T) {
 
 func TestFloats(t *testing.T) {
 	table := []struct {
-		series   Series
+		series   Series1
 		expected string
 	}{
 		{
@@ -910,7 +910,7 @@ func TestFloats(t *testing.T) {
 
 func TestBools(t *testing.T) {
 	table := []struct {
-		series   Series
+		series   Series1
 		expected string
 	}{
 		{
@@ -1005,7 +1005,7 @@ func TestBools(t *testing.T) {
 }
 
 func TestSeries_Copy(t *testing.T) {
-	tests := []Series{
+	tests := []Series1{
 		Strings([]string{"1", "2", "3", "a", "b", "c"}),
 		Ints([]string{"1", "2", "3", "a", "b", "c"}),
 		Floats([]string{"1", "2", "3", "a", "b", "c"}),
@@ -1031,7 +1031,7 @@ func TestSeries_Copy(t *testing.T) {
 
 func TestSeries_Records(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected []string
 	}{
 		{
@@ -1079,7 +1079,7 @@ func TestSeries_Float(t *testing.T) {
 		return true
 	}
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected []float64
 	}{
 		{
@@ -1113,8 +1113,8 @@ func TestSeries_Float(t *testing.T) {
 
 func TestSeries_Concat(t *testing.T) {
 	tests := []struct {
-		a        Series
-		b        Series
+		a        Series1
+		b        Series1
 		expected []string
 	}{
 		{
@@ -1166,7 +1166,7 @@ func TestSeries_Concat(t *testing.T) {
 
 func TestSeries_Order(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		reverse  bool
 		expected []int
 	}{
@@ -1225,7 +1225,7 @@ func TestSeries_Order(t *testing.T) {
 
 func TestSeries_IsNaN(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected []bool
 	}{
 		{
@@ -1251,7 +1251,7 @@ func TestSeries_IsNaN(t *testing.T) {
 
 func TestSeries_StdDev(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected float64
 	}{
 		{
@@ -1290,7 +1290,7 @@ func TestSeries_StdDev(t *testing.T) {
 
 func TestSeries_Mean(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected float64
 	}{
 		{
@@ -1329,7 +1329,7 @@ func TestSeries_Mean(t *testing.T) {
 
 func TestSeries_Max(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected float64
 	}{
 		{
@@ -1368,7 +1368,7 @@ func TestSeries_Max(t *testing.T) {
 
 func TestSeries_Median(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected float64
 	}{
 		{
@@ -1422,7 +1422,7 @@ func TestSeries_Median(t *testing.T) {
 
 func TestSeries_Min(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected float64
 	}{
 		{
@@ -1461,7 +1461,7 @@ func TestSeries_Min(t *testing.T) {
 
 func TestSeries_MaxStr(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected string
 	}{
 		{
@@ -1504,7 +1504,7 @@ func TestSeries_MaxStr(t *testing.T) {
 
 func TestSeries_MinStr(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected string
 	}{
 		{
@@ -1547,7 +1547,7 @@ func TestSeries_MinStr(t *testing.T) {
 
 func TestSeries_Quantile(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		p        float64
 		expected float64
 	}{
@@ -1597,8 +1597,8 @@ func TestSeries_Quantile(t *testing.T) {
 
 func TestSeries_Map(t *testing.T) {
 	tests := []struct {
-		series   Series
-		expected Series
+		series   Series1
+		expected Series1
 	}{
 		{
 			Bools([]bool{false, true, false, false, true}),
@@ -1730,7 +1730,7 @@ func TestSeries_Map(t *testing.T) {
 
 func TestSeries_Sum(t *testing.T) {
 	tests := []struct {
-		series   Series
+		series   Series1
 		expected float64
 	}{
 		{
@@ -1782,8 +1782,8 @@ func TestSeries_Slice(t *testing.T) {
 	tests := []struct {
 		j        int
 		k        int
-		series   Series
-		expected Series
+		series   Series1
+		expected Series1
 	}{
 		{
 			0,

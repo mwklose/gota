@@ -149,7 +149,7 @@ func BenchmarkSeries_Copy(b *testing.B) {
 	rand.Seed(100)
 	table := []struct {
 		name   string
-		series series.Series
+		series series.Series1
 	}{
 		{
 			"[]int(100000)_Int",
@@ -182,7 +182,7 @@ func BenchmarkSeries_Subset(b *testing.B) {
 	table := []struct {
 		name    string
 		indexes interface{}
-		series  series.Series
+		series  series.Series1
 	}{
 		{
 			"[]int(100000)_Int",
@@ -219,8 +219,8 @@ func BenchmarkSeries_Set(b *testing.B) {
 	table := []struct {
 		name      string
 		indexes   interface{}
-		newValues series.Series
-		series    series.Series
+		newValues series.Series1
+		series    series.Series1
 	}{
 		{
 			"[]int(100000)_Int",

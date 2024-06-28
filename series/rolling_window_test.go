@@ -9,8 +9,8 @@ import (
 func TestSeries_RollingMean(t *testing.T) {
 	tests := []struct {
 		window   int
-		series   Series
-		expected Series
+		series   Series1
+		expected Series1
 	}{
 		{
 			3,
@@ -48,8 +48,8 @@ func TestSeries_RollingMean(t *testing.T) {
 func TestSeries_RollingStdDev(t *testing.T) {
 	tests := []struct {
 		window   int
-		series   Series
-		expected Series
+		series   Series1
+		expected Series1
 	}{
 		{
 			3,

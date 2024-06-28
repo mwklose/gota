@@ -3,11 +3,11 @@ package series
 // RollingWindow is used for rolling window calculations.
 type RollingWindow struct {
 	window int
-	series Series
+	series Series1
 }
 
 // Rolling creates new RollingWindow
-func (s Series) Rolling(window int) RollingWindow {
+func (s Series1) Rolling(window int) RollingWindow {
 	return RollingWindow{
 		window: window,
 		series: s,
@@ -15,7 +15,7 @@ func (s Series) Rolling(window int) RollingWindow {
 }
 
 // Mean returns the rolling mean.
-func (r RollingWindow) Mean() (s Series) {
+func (r RollingWindow) Mean() (s Series1) {
 	s = New([]float64{}, Float, "Mean")
 	for _, block := range r.getBlocks() {
 		s.Append(block.Mean())
@@ -25,7 +25,7 @@ func (r RollingWindow) Mean() (s Series) {
 }
 
 // StdDev returns the rolling mean.
-func (r RollingWindow) StdDev() (s Series) {
+func (r RollingWindow) StdDev() (s Series1) {
 	s = New([]float64{}, Float, "StdDev")
 	for _, block := range r.getBlocks() {
 		s.Append(block.StdDev())
@@ -34,7 +34,7 @@ func (r RollingWindow) StdDev() (s Series) {
 	return
 }
 
-func (r RollingWindow) getBlocks() (blocks []Series) {
+func (r RollingWindow) getBlocks() (blocks []Series1) {
 	for i := 1; i <= r.series.Len(); i++ {
 		if i < r.window {
 			blocks = append(blocks, r.series.Empty())
